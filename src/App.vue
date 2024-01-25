@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from 'vue'
+import {ref, onMounted, watch} from 'vue'
 const todos = ref([])
 const name = ref('')
 const input_content = ref('')
@@ -20,12 +20,24 @@ const addTodo = () => {
   input_category.value = null
 
   //console.log(todos)
-  
 }
 
 const removeTodo = (todo) => {
   todos.value = todos.value.filter(t => t !== todo)
 }
+
+onMounted( () => {
+  name.value = localStorage.getItem('name') || ''
+  todos.value = JSON.parse(localStorage.getItem('todos')) || []
+})
+
+watch(name, (newVal) => {
+  localStorage.setItem('name', newVal)
+})
+
+watch(todos, (newVal) => {
+  localStorage.setItem('todos', JSON.stringify(newVal))
+}, {deep: true})
 
 </script>
 
