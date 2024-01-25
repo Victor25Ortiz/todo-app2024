@@ -20,6 +20,11 @@ const addTodo = () => {
   input_category.value = null
 
   //console.log(todos)
+  
+}
+
+const removeTodo = (todo) => {
+  todos.value = todos.value.filter(t => t !== todo)
 }
 
 </script>
@@ -64,7 +69,7 @@ const addTodo = () => {
 
     <section class="todo-list">
       <div class="list">
-      <div v-for="todo in todos" :class="`todo-item ${todo.done ? 'done' : 'not-done'}`" :key="todo">
+      <div v-for="todo in todos.slice().reverse()" :class="`todo-item ${todo.done ? 'done' : 'not-done'}`" :key="todo">
         <!-- {{ todo.done }} -->
         <label>
           <input type="checkbox"  v-model="todo.done" />
@@ -73,7 +78,9 @@ const addTodo = () => {
         <div class="todo-content">
           <input type="text" v-model="todo.content"/>
         </div>
-
+        <div class="actions">
+          <button class="delete" @click="removeTodo(todo)">Delete</button>
+        </div>
       </div>
     </div>
     </section>
